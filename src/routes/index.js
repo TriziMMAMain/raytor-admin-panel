@@ -1,5 +1,5 @@
 import {createMemoryHistory, createRouter} from 'vue-router'
-import HomePageComponent from "@/components/AddProduct.vue";
+import HomePageComponent from "@/components/AddProductComponent.vue";
 
 const routes = [
   {
