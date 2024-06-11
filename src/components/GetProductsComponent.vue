@@ -29,6 +29,14 @@ const showMore = ref(_.fill(Array(productsList.value.length), false));
 const toggleShowMore = (index) => {
   showMore.value[index] = !showMore.value[index];
 };
+const hideProduct = async (id) => {
+  console.log(id);
+  // await hideProductById(id)
+}
+const deleteProduct = async (id) => {
+  console.log(id);
+  // await deleteProductById(id)
+}
 //
 
 onMounted( async () => {
@@ -63,7 +71,11 @@ onMounted( async () => {
       <div class="product-block" v-for="(i, index) in productsList" :key="index">
         <h1 class="product-block-title-id">ID: {{ i.id }}</h1>
         <h1 class="product-block-title">{{ ++index }}. Name: {{ i.title }}</h1>
-        <v-btn class="product-block-v-btn" @click="toggleShowMore(index)">More</v-btn>
+        <div class="product-block-title-actions">
+          <v-btn class="product-block-v-btn" @click="toggleShowMore(index)">More</v-btn>
+          <v-btn class="product-block-v-btn" @click="hideProduct(i.id)">Hide</v-btn>
+          <v-btn class="product-block-v-btn" @click="deleteProduct(i.id)">Delete</v-btn>
+        </div>
         <div class="product-block-description" v-if="showMore[index]">
           <div class="product-block-description-photo-block">
             <img class="product-block-description-photo"
@@ -183,6 +195,11 @@ onMounted( async () => {
   font-size: 2rem;
   font-weight: 500;
   color: #292929;
+}
+
+.product-block-title-actions {
+  display: flex;
+  justify-content: space-between;
 }
 
 .product-block-v-btn {
