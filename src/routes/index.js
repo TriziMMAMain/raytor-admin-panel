@@ -1,15 +1,23 @@
-import {createMemoryHistory, createRouter} from 'vue-router'
-import HomePageComponent from "@/components/AddProductComponent.vue";
+import {createWebHistory, createRouter} from 'vue-router'
+import HomePageComponent from "@/views/HomePageView.vue";
+import LoginPageView from "@/views/LoginPageView.vue";
 
 const routes = [
   {
     path: '/',
+    name: 'HomePageComponent',
     component: HomePageComponent
+
+  },
+  {
+    path: '/login',
+    name: 'LoginPageView',
+    component: LoginPageView
   }
 ]
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 })
 

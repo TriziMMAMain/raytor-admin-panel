@@ -1,6 +1,8 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import _ from 'lodash'
+import {useStore} from '@/stores/index.js'
+const {postImgProduct, postProduct} = useStore()
 
 // Product
 
@@ -41,10 +43,22 @@ const productField = ref('')
 // Func
 
 // Photo
-const pushPhotoInArray = () => {
-  productPhotoArray.value.push(productPhoto.value)
-  console.log('array, add ', productPhotoArray.value);
-  productPhoto.value = ''
+// const pushPhotoInArray = () => {
+//   productPhotoArray.value.push(productPhoto.value)
+//   console.log('array, add ', productPhotoArray.value);
+//   productPhoto.value = ''
+// }
+//
+const selectedFile = ref(null)
+
+//
+const pushPhotoInArray = async () => {
+  await postImgProduct(selectedFile.value)
+    .then(() => {})
+    .catch((e) => {
+      console.log(e);
+    })
+
 }
 const deletePhotoInArray = () => {
   productPhotoArray.value = _.dropRight(productPhotoArray.value)
@@ -122,28 +136,37 @@ const deleteDescriptionOrder = () => {
   console.log('productDescriptionOrder', productDescriptionOrderArray.value);
 }
 //
+//
 
 const submitForm = async () => {
-  const newIdMathInstrument = ref(Math.floor(Math.random() * 1000000))
-  product.value.id = newIdMathInstrument.value
+  // const newIdMathInstrument = ref(Math.floor(Math.random() * 1000000))
+  // product.value.id = newIdMathInstrument.value
+  // product.value.title = productTitle.value
+  // product.value.mainPhoto = productMainPhoto.value
+  // product.value.photo = productPhotoArray.value
+  // product.value.text = productDescriptionSmallText.value
+  // product.value.textDescription = productDescriptionText.value
+  // product.value.textDescripitonLi = productDescriptionLiArrayMain.value
+  // product.value.textDescriptionP = productDescriptionPArray.value
+  // product.value.feature = productDescriptionFeatureArray.value
+  // product.value.order = productDescriptionOrderArray.value
+  // product.value.available = productAvailable.value
+  // product.value.standard = productStandard.value
+  // product.value.manufacturer = productManufacturer.value
+  // product.value.field = productField.value
+//
   product.value.title = productTitle.value
-  product.value.mainPhoto = productMainPhoto.value
-  product.value.photo = productPhotoArray.value
-  product.value.text = productDescriptionSmallText.value
-  product.value.textDescription = productDescriptionText.value
-  product.value.textDescripitonLi = productDescriptionLiArrayMain.value
-  product.value.textDescriptionP = productDescriptionPArray.value
-  product.value.feature = productDescriptionFeatureArray.value
-  product.value.order = productDescriptionOrderArray.value
-  product.value.available = productAvailable.value
-  product.value.standard = productStandard.value
-  product.value.manufacturer = productManufacturer.value
-  product.value.field = productField.value
+  product.value.description = productDescriptionText.value
+
 
   console.log(product.value);
-  // await postInstrument(product.value)
+  await postProduct(product.value)
 
 }
+
+onMounted(() => {
+
+})
 </script>
 
 <template>
@@ -167,6 +190,11 @@ const submitForm = async () => {
                       clearable
                       label="Enter the photo"
                       variant="underlined"/>
+        <v-file-input
+          v-model="selectedFile"
+          label="Выберите файл"
+          accept="image/jpeg"
+        ></v-file-input>
         <v-btn @click="pushPhotoInArray()">Add</v-btn>
         <v-btn @click="deletePhotoInArray()">Delete</v-btn>
         <v-btn @click="showPhotoInArray()">Show</v-btn>

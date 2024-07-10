@@ -4,7 +4,7 @@ import {onMounted, ref} from 'vue'
 import _ from 'lodash'
 // Pinia
 import {useStore} from '@/stores/index.js'
-const {fetchAllProducts} = useStore()
+const {fetchAllProducts, updateHideProduct, deletePostProduct} = useStore()
 
 // Product
 
@@ -29,13 +29,30 @@ const showMore = ref(_.fill(Array(productsList.value.length), false));
 const toggleShowMore = (index) => {
   showMore.value[index] = !showMore.value[index];
 };
-const hideProduct = async (id) => {
-  console.log(id);
-  // await hideProductById(id)
+const hideProduct = async (id, value) => {
+  if (value === true) {
+    await updateHideProduct(id, false)
+  } else if (value === false) {
+    await updateHideProduct(id, true)
+  }
+}
+const idClick = ref(null)
+const clickToConfirm = ref(false)
+const deletePostNoConfirm = () => {
+  clickToConfirm.value = false
+}
+const deletePostConfirm = async () => {
+  await deletePostProduct(idClick.value)
+    .then(() => {
+      window.location.reload()
+    })
+    .catch((e) => {
+      console.log(e);
+    })
 }
 const deleteProduct = async (id) => {
-  console.log(id);
-  // await deleteProductById(id)
+  clickToConfirm.value = true
+  idClick.value = id
 }
 //
 
@@ -53,6 +70,26 @@ onMounted( async () => {
 </script>
 
 <template>
+  <v-banner v-if="clickToConfirm"
+    class="h-100"
+    color="warning"
+    icon="mdi-wifi-strength-alert-outline"
+    lines="one"
+  >
+    <template v-slot:text>
+      No Internet connection
+    </template>
+
+    <template v-slot:actions>
+      <v-btn @click="deletePostNoConfirm()">
+        No
+      </v-btn>
+
+      <v-btn @click="deletePostConfirm()">
+        Yes
+      </v-btn>
+    </template>
+  </v-banner>
   <div class="wrap-products-block">
 
     <div class="filter-block">
@@ -69,11 +106,11 @@ onMounted( async () => {
 
     <div class="product-block-wrap">
       <div class="product-block" v-for="(i, index) in productsList" :key="index">
-        <h1 class="product-block-title-id">ID: {{ i.id }}</h1>
+        <h1 class="product-block-title-id">ID: {{ i.id }} // Hide: {{ i.hide }}</h1>
         <h1 class="product-block-title">{{ ++index }}. Name: {{ i.title }}</h1>
         <div class="product-block-title-actions">
           <v-btn class="product-block-v-btn" @click="toggleShowMore(index)">More</v-btn>
-          <v-btn class="product-block-v-btn" @click="hideProduct(i.id)">Hide</v-btn>
+          <v-btn class="product-block-v-btn" @click="hideProduct(i.id, i.hide)">Hide</v-btn>
           <v-btn class="product-block-v-btn" @click="deleteProduct(i.id)">Delete</v-btn>
         </div>
         <div class="product-block-description" v-if="showMore[index]">

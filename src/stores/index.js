@@ -1,16 +1,59 @@
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
 import _ from "lodash";
-import interceptors from "@/api";
+import axios from 'axios';
+import Qs from 'qs'
+import * as inspector from "node:inspector";
+
+const token = ref(JSON.parse(localStorage.getItem('token')))
+
+
+const interceptors = axios.create({
+  baseURL: 'http://smataruev.fvds.ru:10000',
+  headers: {
+    Authorization: token.value
+  }
+});
 
 export const useStore = defineStore('store', () => {
   // state
   const products = ref(null)
   const productsById = ref(null)
+  const isLogin = ref(false)
+  const hrefToLoginPage = ref(false)
+  const imgInProduct = ref(null)
 
   // action
 
+  async function checkLogin(account) {
+    console.log(account);
+    const encodedAccount = Qs.stringify(account);
+    await interceptors.post('/login', encodedAccount, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded' // Указываем тип данных
+      }
+    })
+      .then(response => {
+        if (response.status === 200) {
+          localStorage.setItem("token", `"Bearer ${response.data.token}"`)
+        }
+        window.location.reload()
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // token.value = " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzIwODUyOTcxfQ.dNE0P7LL8ksbBsuvad-9NiqB8JBEua9zH6LTkcLHAHk";
+    // localStorage.setItem('token', JSON.stringify(token.value));
+  }
+  async function checkLoginInHomePage() {
+    if (token.value === null) {
+      hrefToLoginPage.value = true
+    } else {
+      hrefToLoginPage.value = false
+    }
+  }
   async function fetchAllProducts() {
+
     products.value = [
       {
         id: 12554124,
@@ -487,17 +530,18 @@ export const useStore = defineStore('store', () => {
         field: 'SCSR'
       }
     ]
-    localStorage.setItem('products', JSON.stringify(products.value))
 
-    // try {
-    //   const response = await interceptors.get('/api/instruments/get/all')
-    //   products.value = response.data
-    //   return true
-    // } catch (error) {
-    //   this.error = error
-    //   console.log(error)
-    //   return false
-    // }
+    try {
+      const response = await interceptors.get('/api/posts')
+      products.value = response.data
+      console.log(products.value);
+      localStorage.setItem('products', JSON.stringify(products.value))
+
+      return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
   }
   async function fetchIdProduct(id) {
     try {
@@ -506,16 +550,17 @@ export const useStore = defineStore('store', () => {
       console.log(error)
     }
   }
-  async function postProduct(newProduct) {
+  async function postProduct(product) {
     try {
-      console.log(newProduct);
-      // const response = await interceptors.post('instrument/add', instrument)
-        // .then((result) => {
-        //   console.log(result.status);
-        // })
-        // .catch((err) => {
-        //   console.log(err);
-        // })
+      console.log(product);
+      product.img = imgInProduct.value
+      const response = await interceptors.post('/api/posts', product)
+        .then((result) => {
+          console.log(result.status);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
 
       return true
     } catch (error) {
@@ -523,11 +568,56 @@ export const useStore = defineStore('store', () => {
       return false
     }
   }
-
-
+  async function updateHideProduct(id, value) {
+    console.log(id);
+    console.log(value);
+    try {
+      const response = await interceptors.patch(`/api/posts/${id}/hide?hide=${value}`)
+      console.log(response.data);
+      return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+  async function postImgProduct(img) {
+    const formData = new FormData()
+    formData.append('file', img);
+    try {
+      const response = await interceptors.post('/api/upload', formData);
+      imgInProduct.value = response.data.file_path
+      imgInProduct.value = _.slice(imgInProduct.value, 2).join('')
+      imgInProduct.value = `http://smataruev.fvds.ru:10000/${imgInProduct.value}`
+      console.log(imgInProduct.value);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function deletePostProduct(id) {
+    try {
+      const response = await interceptors.delete(`/api/posts/${id}`);
+      console.log(response.status);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function updateProduct(name, product) {
+    try {
+      const id = ref(_.find(products.value, {title: name}))
+      console.log(id.value.id);
+      const response = await interceptors.put(`/api/posts/${id.value.id}`, product)
+      console.log(response.status);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
 
   // getters
 
-  return {products, productsById, fetchAllProducts}
+  return {
+    products, productsById, fetchAllProducts,
+    hrefToLoginPage, checkLogin, checkLoginInHomePage,
+    updateHideProduct, postImgProduct, postProduct,
+    deletePostProduct, updateProduct}
 })

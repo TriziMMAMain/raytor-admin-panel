@@ -1,11 +1,15 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import _ from 'lodash'
+import {useStore} from '@/stores/index.js'
 
+const {updateProduct} = useStore()
 // Product
 
+const productVModel = ref('')
 const product = ref({})
-
+const productsList = ref([])
+const productsListName = ref([])
 // Info
 
 const productTitle = ref('')
@@ -140,9 +144,12 @@ const submitForm = async () => {
 
 
   console.log(product.value);
-  // await postInstrument(product.value)
-
+  await updateProduct(productVModel.value, product.value)
 }
+onMounted(() => {
+  productsList.value = JSON.parse(localStorage.getItem('products'))
+  productsListName.value = _.map(productsList.value, 'title')
+})
 </script>
 
 <template>
@@ -150,6 +157,11 @@ const submitForm = async () => {
 
     <div class="block-id-name">
       Сделать фильтр какой продукт менять
+      <v-autocomplete :items="productsListName"
+        label="Product Name"
+        v-model="productVModel">
+
+      </v-autocomplete>
     </div>
 
     <div class="block-title">

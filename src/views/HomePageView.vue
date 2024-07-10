@@ -1,5 +1,8 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
+import {useRouter} from 'vue-router'
+
+const router = useRouter()
 
 // Component
 
@@ -10,35 +13,35 @@ import UpdateProductIdComponent from "@/components/UpdateProductIdComponent.vue"
 //
 
 const tab = ref('getProducts')
+const asd = ref(false)
+
+
 </script>
 
 <template>
-  <v-app full-height theme="myCustomTheme">
-      <v-tabs
-        v-model="tab"
-        bg-color="primary"
-      >
-        <div class="v-tabs-wrap">
-          <v-tab value="getProducts">Get</v-tab>
-          <v-tab value="addProduct">Add</v-tab>
-          <v-tab value="updateProductId">Update by ID</v-tab>
-        </div>
-      </v-tabs>
+  <v-tabs
+    v-model="tab"
+    bg-color="primary"
+  >
+    <div class="v-tabs-wrap">
+      <v-tab value="getProducts">Get</v-tab>
+      <v-tab value="addProduct">Add</v-tab>
+      <v-tab value="updateProductId">Update by ID</v-tab>
+    </div>
+  </v-tabs>
 
-    <v-main>
-      <v-window v-model="tab">
-        <v-window-item value="getProducts">
-            <GetProductsComponent></GetProductsComponent>
-        </v-window-item>
-        <v-window-item value="addProduct">
-            <AddProductComponent></AddProductComponent>
-        </v-window-item>
-        <v-window-item value="updateProductId">
-            <UpdateProductIdComponent></UpdateProductIdComponent>
-        </v-window-item>
-      </v-window>
-    </v-main>
-  </v-app>
+  <v-window v-model="tab">
+    <v-window-item value="getProducts">
+      <GetProductsComponent></GetProductsComponent>
+    </v-window-item>
+    <v-window-item value="addProduct">
+      <AddProductComponent></AddProductComponent>
+    </v-window-item>
+    <v-window-item value="updateProductId">
+      <UpdateProductIdComponent></UpdateProductIdComponent>
+    </v-window-item>
+  </v-window>
+
 </template>
 
 <style scoped>
@@ -46,6 +49,7 @@ const tab = ref('getProducts')
 .v-tabs-wrap {
   width: 100%;
   height: 100%;
+  position: fixed;
   display: flex;
   justify-content: center;
 }
