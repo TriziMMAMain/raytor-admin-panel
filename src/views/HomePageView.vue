@@ -9,7 +9,8 @@ const router = useRouter()
 import GetProductsComponent from "@/components/GetProductsComponent.vue";
 import AddProductComponent from "@/components/AddProductComponent.vue";
 import UpdateProductIdComponent from "@/components/UpdateProductIdComponent.vue";
-
+import AddAddressComponent from "@/components/AddAddressComponent.vue";
+import GetAddressComponent from "@/components/GetAddressComponent.vue";
 //
 
 const tab = ref('getProducts')
@@ -27,6 +28,8 @@ const asd = ref(false)
       <v-tab value="getProducts">Get</v-tab>
       <v-tab value="addProduct">Add</v-tab>
       <v-tab value="updateProductId">Update by ID</v-tab>
+      <v-tab value="getAddress">Get address</v-tab>
+      <v-tab value="addAddress">Add address</v-tab>
     </div>
   </v-tabs>
 
@@ -39,6 +42,12 @@ const asd = ref(false)
     </v-window-item>
     <v-window-item value="updateProductId">
       <UpdateProductIdComponent></UpdateProductIdComponent>
+    </v-window-item>
+    <v-window-item value="getAddress">
+      <GetAddressComponent></GetAddressComponent>
+    </v-window-item>
+    <v-window-item value="addAddress">
+      <AddAddressComponent></AddAddressComponent>
     </v-window-item>
   </v-window>
 
