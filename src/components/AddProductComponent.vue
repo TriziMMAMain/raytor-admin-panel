@@ -198,7 +198,7 @@ onMounted(() => {
             label="Select a photo"
             accept="image/jpeg"
           ></v-file-input>
-          <!--          <v-btn class="v-btn-photo" @click="pushPhotoInArray()">Add</v-btn>-->
+          <v-btn class="v-btn-description-li" @click="pushPhotoInArray()" elevation="0">Add photo in server</v-btn>
           <!--          <v-btn class="v-btn-photo" @click="deletePhotoInArray()">Delete</v-btn>-->
           <!--          <v-btn class="v-btn-photo" @click="showPhotoInArray()">Show</v-btn>-->
         </div>

@@ -6,7 +6,7 @@ import {storeToRefs} from 'pinia'
 import router from "@/routes";
 
 
-const {checkLoginInHomePage} = useStore()
+const {checkLoginInHomePage, fetchAllProducts} = useStore()
 const {hrefToLoginPage} = storeToRefs(useStore())
 
 
@@ -17,6 +17,13 @@ onMounted(async () => {
   } else {
     router.push('/')
   }
+  await fetchAllProducts()
+    .then(() => {
+      console.log('fetching')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 
 })
 </script>

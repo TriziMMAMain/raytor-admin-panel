@@ -58,13 +58,7 @@ const deleteProduct = async (id) => {
 //
 
 onMounted(async () => {
-  await fetchAllProducts()
-    .then(() => {
-      console.log('fetching')
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+
   productsList.value = JSON.parse(localStorage.getItem('products'))
   productsListName.value = _.map(productsList.value, 'title')
 })

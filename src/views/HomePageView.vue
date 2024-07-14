@@ -13,8 +13,7 @@ import AddAddressComponent from "@/components/AddAddressComponent.vue";
 import GetAddressComponent from "@/components/GetAddressComponent.vue";
 //
 
-const tab = ref('addProduct')
-const asd = ref(false)
+const tab = ref('addAddress')
 
 
 </script>
