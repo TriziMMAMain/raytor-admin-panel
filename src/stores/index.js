@@ -534,18 +534,19 @@ export const useStore = defineStore('store', () => {
           field: 'SCSR'
         }
       ]
+      localStorage.setItem('products', JSON.stringify(products.value))
 
-      try {
-        const response = await interceptors.get('/api/posts')
-        products.value = response.data
-        console.log(products.value);
-        localStorage.setItem('products', JSON.stringify(products.value))
-
-        return true
-      } catch (error) {
-        console.log(error)
-        return false
-      }
+      // try {
+      //   const response = await interceptors.get('/api/posts')
+      //   products.value = response.data
+      //   console.log(products.value);
+      //   localStorage.setItem('products', JSON.stringify(products.value))
+      //
+      //   return true
+      // } catch (error) {
+      //   console.log(error)
+      //   return false
+      // }
     }
 
     async function fetchIdProduct(id) {

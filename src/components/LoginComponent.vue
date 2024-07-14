@@ -19,13 +19,17 @@ const submitForm = async () => {
 
 <template>
   <v-form class="v-form-main" type="submitForm()">
-    <v-text-field v-model="loginVText"
-                  label="Login"
-                  clearable></v-text-field>
-    <v-text-field v-model="passwordVText"
-                  label="Password"
-                  type="number"
-                  clearable></v-text-field>
+    <div class="actions">
+      <v-text-field class="v-text-field"
+                    v-model="loginVText"
+                    label="Login"
+                    clearable></v-text-field>
+      <v-text-field class="v-text-field"
+                    v-model="passwordVText"
+                    label="Password"
+                    type="number"
+                    clearable></v-text-field>
+    </div>
 
     <v-btn color="primary" @click="submitForm">Submit</v-btn>
   </v-form>
@@ -35,5 +39,19 @@ const submitForm = async () => {
 
 .v-form-main {
   width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.acions {
+  width: 100%;
+}
+
+.v-text-field {
+  min-width: 300px;
 }
 </style>

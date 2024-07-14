@@ -13,7 +13,7 @@ import AddAddressComponent from "@/components/AddAddressComponent.vue";
 import GetAddressComponent from "@/components/GetAddressComponent.vue";
 //
 
-const tab = ref('getProducts')
+const tab = ref('addProduct')
 const asd = ref(false)
 
 
@@ -22,12 +22,14 @@ const asd = ref(false)
 <template>
   <v-tabs
     v-model="tab"
+    center-active
+    mobile-breakpoint="xs"
     bg-color="primary"
   >
     <div class="v-tabs-wrap">
-      <v-tab value="getProducts">Get</v-tab>
-      <v-tab value="addProduct">Add</v-tab>
-      <v-tab value="updateProductId">Update by ID</v-tab>
+      <v-tab value="getProducts">Get product</v-tab>
+      <v-tab value="addProduct">Add product</v-tab>
+      <v-tab value="updateProductId">Update by ID product</v-tab>
       <v-tab value="getAddress">Get address</v-tab>
       <v-tab value="addAddress">Add address</v-tab>
     </div>
@@ -58,7 +60,6 @@ const asd = ref(false)
 .v-tabs-wrap {
   width: 100%;
   height: 100%;
-  position: fixed;
   display: flex;
   justify-content: center;
 }
