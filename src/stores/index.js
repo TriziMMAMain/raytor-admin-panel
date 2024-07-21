@@ -23,7 +23,7 @@ export const useStore = defineStore('store', () => {
     const address = ref(null)
     const isLogin = ref(false)
     const hrefToLoginPage = ref(false)
-    const imgInProduct = ref(null)
+    const imgInProduct = ref([])
 
     // action
 
@@ -537,7 +537,7 @@ export const useStore = defineStore('store', () => {
       // localStorage.setItem('products', JSON.stringify(products.value))
 
       try {
-        const response = await interceptors.get('/api/posts')
+        const response = await interceptors.get('posts/')
         products.value = response.data
         console.log(products.value);
         localStorage.setItem('products', JSON.stringify(products.value))
@@ -559,7 +559,7 @@ export const useStore = defineStore('store', () => {
 
     async function fetchAddress() {
       try {
-        const response = await interceptors.get('/api/addresses')
+        const response = await interceptors.get('addresses/')
         address.value = response.data
         console.log(address.value);
         localStorage.setItem('address', JSON.stringify(address.value))
@@ -594,22 +594,51 @@ export const useStore = defineStore('store', () => {
       }
     }
 
-    async function postImgProduct(img) {
-      const formData = new FormData()
-      formData.append('file', img);
+    async function postImgProduct(img, img2, img3) {
       try {
+        const formData = new FormData();
+        if (img instanceof File) {
+          formData.append("file", img);
+        }
+        if (img2 instanceof File) {
+          formData.append("file", img2);
+        }
+        if (img3 instanceof File) {
+          formData.append("file", img3);
+        }
+
         const response = await interceptors.post('/api/upload', formData)
-          .then((result) => {
+          .then( async (result) => {
             console.log(result.status)
+            console.log(result.data.file_paths);
+            imgInProduct.value = result.data.file_paths
+
+            if (imgInProduct.value.length === 1) {
+              imgInProduct.value[0] = imgInProduct.value[0].substring(2)
+              imgInProduct.value[0] = `http://smataruev.fvds.ru:10000/${imgInProduct.value[0]}`
+
+              console.log(imgInProduct.value);
+            } else if (imgInProduct.value.length === 2) {
+              imgInProduct.value[0] = imgInProduct.value[0].substring(2)
+              imgInProduct.value[0] = `http://smataruev.fvds.ru:10000/${imgInProduct.value[0]}`
+              imgInProduct.value[1] = imgInProduct.value[1].substring(2)
+              imgInProduct.value[1] = `http://smataruev.fvds.ru:10000/${imgInProduct.value[1]}`
+              console.log(imgInProduct.value);
+            } else if (imgInProduct.value.length === 3) {
+              imgInProduct.value[0] = imgInProduct.value[0].substring(2)
+              imgInProduct.value[0] = `http://smataruev.fvds.ru:10000/${imgInProduct.value[0]}`
+              imgInProduct.value[1] = imgInProduct.value[1].substring(2)
+              imgInProduct.value[1] = `http://smataruev.fvds.ru:10000/${imgInProduct.value[1]}`
+              imgInProduct.value[2] = imgInProduct.value[2].substring(2)
+              imgInProduct.value[2] = `http://smataruev.fvds.ru:10000/${imgInProduct.value[2]}`
+
+              console.log(imgInProduct.value);
+            }
             ProccesingSuccessfuly('Successfuly')
           })
           .catch((e) => {
             console.log(e);
           })
-        imgInProduct.value = response.data.file_path
-        imgInProduct.value = _.slice(imgInProduct.value, 2).join('')
-        imgInProduct.value = `http://smataruev.fvds.ru:10000/${imgInProduct.value}`
-        console.log(imgInProduct.value);
       } catch
         (error) {
         console.error(error);
@@ -682,8 +711,17 @@ export const useStore = defineStore('store', () => {
 
     async function deletePostProduct(id) {
       try {
-        const response = await interceptors.delete(`/api/posts/${id}`);
-        console.log(response.status);
+        const response = await interceptors.delete(`/api/posts/${id}`)
+          .then((result) => {
+            console.log(result.status);
+            ProccesingSuccessfuly('Successfuly')
+            setTimeout(() => {
+              window.location.reload()
+            },3000)
+          })
+          .catch((e) => {
+            console.log(e);
+          })
       } catch (error) {
         console.error(error);
       }

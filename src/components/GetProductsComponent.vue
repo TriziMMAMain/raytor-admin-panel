@@ -44,12 +44,6 @@ const deletePostNoConfirm = () => {
 }
 const deletePostConfirm = async () => {
   await deletePostProduct(idClick.value)
-    .then(() => {
-      window.location.reload()
-    })
-    .catch((e) => {
-      console.log(e);
-    })
 }
 const deleteProduct = async (id) => {
   clickToConfirm.value = true
@@ -111,7 +105,8 @@ onMounted(async () => {
         <h1 class="product-block-title">{{ ++index }}. Name: {{ i.title }}</h1>
         <div class="product-block-title-actions">
           <v-btn class="product-block-v-btn" @click="toggleShowMore(index)">More</v-btn>
-          <v-btn class="product-block-v-btn" @click="hideProduct(i.id, i.hide)">Hide</v-btn>
+          <v-btn class="product-block-v-btn" @click="hideProduct(i.id, i.hide)" v-if="i.hide">Show</v-btn>
+          <v-btn class="product-block-v-btn" @click="hideProduct(i.id, i.hide)" v-else>Hide</v-btn>
           <v-btn class="product-block-v-btn" @click="deleteProduct(i.id)">Delete</v-btn>
         </div>
         <div class="product-block-description" v-if="showMore[index]">

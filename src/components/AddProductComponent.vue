@@ -51,10 +51,12 @@ const productField = ref('')
 // }
 //
 const selectedFile = ref(null)
+const selectedFile2 = ref(null)
+const selectedFile3 = ref(null)
 
 //
 const pushPhotoInArray = async () => {
-  await postImgProduct(selectedFile.value)
+  await postImgProduct(selectedFile.value, selectedFile2.value, selectedFile3.value)
     .then(() => {
     })
     .catch((e) => {
@@ -196,7 +198,17 @@ onMounted(() => {
           <v-file-input
             v-model="selectedFile"
             label="Select a photo"
-            accept="image/jpeg"
+            accept="image/*"
+          ></v-file-input>
+          <v-file-input
+            v-model="selectedFile2"
+            label="Select a photo"
+            accept="image/*"
+          ></v-file-input>
+          <v-file-input
+            v-model="selectedFile3"
+            label="Select a photo"
+            accept="image/*"
           ></v-file-input>
           <v-btn class="v-btn-description-li" @click="pushPhotoInArray()" elevation="0">Add photo in server</v-btn>
           <!--          <v-btn class="v-btn-photo" @click="deletePhotoInArray()">Delete</v-btn>-->
