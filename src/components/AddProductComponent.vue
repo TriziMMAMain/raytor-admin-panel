@@ -36,7 +36,7 @@ const productDescriptionOrderArray = ref([])
 const productDescriptionOrderText = ref('')
 const productDescriptionOrderValue = ref('')
 // Description info
-const productAvailable = ref(false)
+const productHide = ref(false)
 const productStandard = ref('')
 const productManufacturer = ref('')
 const productField = ref('')
@@ -139,28 +139,25 @@ const deleteDescriptionOrder = () => {
   productDescriptionOrderArray.value = _.dropRight(productDescriptionOrderArray.value)
   console.log('productDescriptionOrder', productDescriptionOrderArray.value);
 }
-//
+
 //
 
 const submitForm = async () => {
-  // const newIdMathInstrument = ref(Math.floor(Math.random() * 1000000))
-  // product.value.id = newIdMathInstrument.value
-  // product.value.title = productTitle.value
-  // product.value.mainPhoto = productMainPhoto.value
-  // product.value.photo = productPhotoArray.value
-  // product.value.text = productDescriptionSmallText.value
-  // product.value.textDescription = productDescriptionText.value
-  // product.value.textDescripitonLi = productDescriptionLiArrayMain.value
-  // product.value.textDescriptionP = productDescriptionPArray.value
-  // product.value.feature = productDescriptionFeatureArray.value
-  // product.value.order = productDescriptionOrderArray.value
-  // product.value.available = productAvailable.value
-  // product.value.standard = productStandard.value
-  // product.value.manufacturer = productManufacturer.value
-  // product.value.field = productField.value
-//
   product.value.title = productTitle.value
-  product.value.description = productDescriptionText.value
+  product.value.text = productDescriptionSmallText.value
+  product.value.photo = []
+  product.value.textDescription = productDescriptionText.value
+  product.value.textDescripitonLi = productDescriptionLiArrayMain.value
+  product.value.textDescriptionP = productDescriptionPArray.value
+  product.value.feature = productDescriptionFeatureArray.value
+  product.value.order = productDescriptionOrderArray.value
+  product.value.hide = productHide.value
+  product.value.standard = productStandard.value
+  product.value.manufacturer = productManufacturer.value
+  product.value.field = productField.value
+
+  // product.value.title = productTitle.value
+  // product.value.description = productDescriptionText.value
 
 
   console.log(product.value);
@@ -320,9 +317,9 @@ onMounted(() => {
       </div>
       <div class="block-info">
         <v-checkbox
-          v-model="productAvailable"
+          v-model="productHide"
           clearable
-          label="Click the available"
+          label="Click the hide"
           variant="underlined"/>
 
         <v-text-field v-model="productStandard"

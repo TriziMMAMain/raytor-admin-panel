@@ -572,20 +572,26 @@ export const useStore = defineStore('store', () => {
     }
 
     async function postProduct(product) {
+      console.log(imgInProduct.value);
+      product.photo = imgInProduct.value
       try {
-        console.log(product);
-        product.img = imgInProduct.value
-        const response = await interceptors.post('/api/posts', product)
-          .then((result) => {
-            console.log(result.status);
-            ProccesingSuccessfuly('Successfuly')
-            setTimeout(() => {
-              window.location.reload()
-            }, 3000)
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+
+        if (product.photo.length >= 1) {
+          const response = await interceptors.post('/api/posts', product)
+            .then((result) => {
+              console.log(result.status);
+              ProccesingSuccessfuly('Successfuly')
+              setTimeout(() => {
+                window.location.reload()
+              }, 3000)
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+        } else {
+          console.log('Invalid photo')
+        }
+
 
         return true
       } catch (error) {

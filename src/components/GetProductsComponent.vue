@@ -115,6 +115,8 @@ onMounted(async () => {
                  v-for="photoLi in i.photo" alt="" :src="photoLi">
           </div>
           <h1 class="product-block-description-title">Description</h1>
+          <p class="product-block-description-text">{{ i.text }}</p>
+          <br>
           <p class="product-block-description-text">{{ i.textDescription }}</p>
           <div class="product-block-description-ul-block-wrap">
             <div class="product-block-description-ul-block"
@@ -159,7 +161,6 @@ onMounted(async () => {
             </v-table>
           </div>
           <div class="product-block-description-info">
-            <h1 class="product-block-description-info-title">Available: {{ i.available }}</h1>
             <h1 class="product-block-description-info-title">Standard: {{ i.standard }}</h1>
             <h1 class="product-block-description-info-title">Manufacturer: {{ i.manufacturer }}</h1>
             <h1 class="product-block-description-info-title">Field: {{ i.field }}</h1>
