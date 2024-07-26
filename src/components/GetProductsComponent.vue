@@ -120,7 +120,7 @@ onMounted(async () => {
           <p class="product-block-description-text">{{ i.textDescription }}</p>
           <div class="product-block-description-ul-block-wrap">
             <div class="product-block-description-ul-block"
-                 v-for="textUlLi in i.textDescripitonLi">
+                 v-for="textUlLi in i.textDescriptionLi">
               <h1 class="product-block-description-ul-title">{{ textUlLi.textUl }}</h1>
               <p class="product-block-description-li-text"
                  v-for="textLi in textUlLi.textLi">{{ textLi }}</p>
@@ -454,7 +454,7 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 376px) and (max-width: 600px) {
+@media screen and (min-width: 376px) and (max-width: 599px) {
 
   .v-banner-wrap {
     width: 100%;
@@ -726,7 +726,7 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 960px) {
+@media screen and (min-width: 600px) and (max-width: 959px) {
 
   .v-banner-wrap {
     width: 100%;
@@ -998,7 +998,7 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 960px) and (max-width: 1280px) {
+@media screen and (min-width: 960px) and (max-width: 1279px) {
 
   .v-banner-wrap {
     width: 100%;
@@ -1269,7 +1269,7 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1440px) {
+@media screen and (min-width: 1280px) and (max-width: 1439px) {
 
   .v-banner-wrap {
     width: 100%;
@@ -1540,7 +1540,7 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 1440px) and (max-width: 1920px) {
+@media screen and (min-width: 1440px) and (max-width: 1919px) {
 
   .v-banner-wrap {
     width: 100%;
@@ -1811,7 +1811,7 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 1920px) and (max-width: 2560px) {
+@media screen and (min-width: 1920px) and (max-width: 2559px) {
 
   .v-banner-wrap {
     width: 100%;

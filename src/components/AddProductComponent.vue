@@ -55,9 +55,11 @@ const selectedFile2 = ref(null)
 const selectedFile3 = ref(null)
 
 //
+const photoValid = ref(true)
 const pushPhotoInArray = async () => {
   await postImgProduct(selectedFile.value, selectedFile2.value, selectedFile3.value)
     .then(() => {
+      photoValid.value = false
     })
     .catch((e) => {
       console.log(e);
@@ -142,12 +144,42 @@ const deleteDescriptionOrder = () => {
 
 //
 
+const productStandardArray = ref([
+  'En', 'DSTU', 'IS', 'SANS', 'Others'
+])
+const productManufacturerArray = ref([
+  'DEZEGA SP', 'DONSORB'
+])
+const productFieldArray = ref([
+  'SCSR', 'Closed-circuit SCBA', 'Emergency escape hoode', 'Auxiliary equipment'
+])
+
+const isValidA = ref(true)
+const requiredRule = (value) => {
+  if (value) {
+    return true;
+  } else {
+    return 'Fill in the field';
+  }
+}
+const requiredRule2 = (value) => {
+  if (value) {
+    isValidA.value = false
+    return true;
+  } else {
+    isValidA.value = true
+    return 'Fill in the field';
+  }
+}
+
+//
+
 const submitForm = async () => {
   product.value.title = productTitle.value
   product.value.text = productDescriptionSmallText.value
   product.value.photo = []
   product.value.textDescription = productDescriptionText.value
-  product.value.textDescripitonLi = productDescriptionLiArrayMain.value
+  product.value.textDescriptionLi = productDescriptionLiArrayMain.value
   product.value.textDescriptionP = productDescriptionPArray.value
   product.value.feature = productDescriptionFeatureArray.value
   product.value.order = productDescriptionOrderArray.value
@@ -165,9 +197,6 @@ const submitForm = async () => {
 
 }
 
-onMounted(() => {
-
-})
 </script>
 
 <template>
@@ -224,7 +253,7 @@ onMounted(() => {
                     variant="underlined"/>
         <v-textarea v-model="productDescriptionText"
                     clearable
-                    rows="2"
+                    rows="6"
                     :auto-grow="true"
                     label="Enter a description"
                     variant="underlined"/>
@@ -262,10 +291,12 @@ onMounted(() => {
 
         </div>
         <div class="block-description-p">
-          <v-text-field v-model="productDescriptionP"
-                        clearable
-                        label="Enter a description text"
-                        variant="underlined"/>
+          <v-textarea v-model="productDescriptionP"
+                      clearable
+                      rows="5"
+                      :auto-grow="true"
+                      label="Enter a description text"
+                      variant="underlined"/>
 
           <div class="block-description-p-actions">
             <v-btn class="v-btn-description-p" elevation="0"
@@ -322,26 +353,32 @@ onMounted(() => {
           label="Click the hide"
           variant="underlined"/>
 
-        <v-text-field v-model="productStandard"
-                      clearable
-                      label="Enter the standard"
-                      type="text"
-                      variant="underlined"/>
+        <v-autocomplete v-model="productStandard"
+                        :items="productStandardArray"
+                        :rules="[requiredRule]"
+                        clearable
+                        label="Enter the standard"
+                        type="text"
+                        variant="underlined"/>
 
-        <v-text-field v-model="productManufacturer"
-                      clearable
-                      label="Enter the manufacturer"
-                      type="text"
-                      variant="underlined"/>
+        <v-autocomplete v-model="productManufacturer"
+                        :items="productManufacturerArray"
+                        :rules="[requiredRule]"
+                        clearable
+                        label="Enter the manufacturer"
+                        type="text"
+                        variant="underlined"/>
 
-        <v-text-field v-model="productField"
-                      clearable
-                      label="Enter the field"
-                      type="text"
-                      variant="underlined"/>
+        <v-autocomplete v-model="productField"
+                        :items="productFieldArray"
+                        :rules="[requiredRule2]"
+                        clearable
+                        label="Enter the field"
+                        type="text"
+                        variant="underlined"/>
       </div>
 
-      <v-btn class="v-btn-form-submit" @click="submitForm">Submit</v-btn>
+      <v-btn class="v-btn-form-submit" :disabled="isValidA || photoValid" @click="submitForm">Submit</v-btn>
 
     </v-form>
 

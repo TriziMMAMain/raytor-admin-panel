@@ -141,22 +141,87 @@ const deleteDescriptionOrder = () => {
   productDescriptionOrderArray.value = _.dropRight(productDescriptionOrderArray.value)
   console.log('productDescriptionOrder', productDescriptionOrderArray.value);
 }
+
+//
+
+const productStandardArray = ref([
+  'En', 'DSTU', 'IS', 'SANS', 'Others'
+])
+const productManufacturerArray = ref([
+  'DEZEGA SP', 'DONSORB'
+])
+const productFieldArray = ref([
+  'SCSR', 'Closed-circuit SCBA', 'Emergency escape hoode', 'Auxiliary equipment'
+])
+
+//
+
+const isValidA = ref(true)
+const requiredRule = (value) => {
+  if (value) {
+    isValidA.value = false
+    return true;
+  } else {
+    isValidA.value = true
+    return 'Fill in the field';
+  }
+}
+
 //
 
 const submitForm = async () => {
-  if (productTitle.value === '') {} else {product.value.title = productTitle.value}
-  if (productMainPhoto.value === '') {} else {product.value.mainPhoto = productMainPhoto.value}
-  if (productPhotoArray.value.length === 0) {} else {product.value.photo = productPhotoArray.value}
-  if (productDescriptionSmallText.value === '') {} else {product.value.text = productDescriptionSmallText.value}
-  if (productDescriptionText.value === '') {} else {product.value.textDescription = productDescriptionText.value}
-  if (productDescriptionLiArrayMain.value.length === 0) {} else {product.value.textDescripitonLi = productDescriptionLiArrayMain.value}
-  if (productDescriptionPArray.value.length === 0) {} else {product.value.textDescriptionP = productDescriptionPArray.value}
-  if (productDescriptionFeatureArray.value.length === 0) {} else {product.value.feature = productDescriptionFeatureArray.value}
-  if (productDescriptionOrderArray.value.length === 0) {} else {product.value.order = productDescriptionOrderArray.value}
-  if (productAvailable.value === null) {} else {product.value.available = productAvailable.value}
-  if (productStandard.value === '') {} else {product.value.standard = productStandard.value}
-  if (productManufacturer.value === '') {} else {product.value.manufacturer = productManufacturer.value}
-  if (productField.value === '') {} else {product.value.field = productField.value}
+  if (productTitle.value === '') {
+  } else {
+    product.value.title = productTitle.value
+  }
+  if (productMainPhoto.value === '') {
+  } else {
+    product.value.mainPhoto = productMainPhoto.value
+  }
+  if (productPhotoArray.value.length === 0) {
+  } else {
+    product.value.photo = productPhotoArray.value
+  }
+  if (productDescriptionSmallText.value === '') {
+  } else {
+    product.value.text = productDescriptionSmallText.value
+  }
+  if (productDescriptionText.value === '') {
+  } else {
+    product.value.textDescription = productDescriptionText.value
+  }
+  if (productDescriptionLiArrayMain.value.length === 0) {
+  } else {
+    product.value.textDescriptionLi = productDescriptionLiArrayMain.value
+  }
+  if (productDescriptionPArray.value.length === 0) {
+  } else {
+    product.value.textDescriptionP = productDescriptionPArray.value
+  }
+  if (productDescriptionFeatureArray.value.length === 0) {
+  } else {
+    product.value.feature = productDescriptionFeatureArray.value
+  }
+  if (productDescriptionOrderArray.value.length === 0) {
+  } else {
+    product.value.order = productDescriptionOrderArray.value
+  }
+  if (productAvailable.value === null) {
+  } else {
+    product.value.available = productAvailable.value
+  }
+  if (productStandard.value === '') {
+  } else {
+    product.value.standard = productStandard.value
+  }
+  if (productManufacturer.value === '') {
+  } else {
+    product.value.manufacturer = productManufacturer.value
+  }
+  if (productField.value === '') {
+  } else {
+    product.value.field = productField.value
+  }
 
 
   console.log(product.value);
@@ -184,6 +249,8 @@ onMounted(async () => {
         Сделать фильтр какой продукт менять
         <v-autocomplete :items="productsListName"
                         label="Product Name"
+                        clearable
+                        :rules="[requiredRule]"
                         v-model="productVModel">
 
         </v-autocomplete>
@@ -207,13 +274,13 @@ onMounted(async () => {
           <!--                        clearable-->
           <!--                        label="Enter the photo"-->
           <!--                        variant="underlined"/>-->
-          <v-file-input
-            v-model="selectedFile"
-            label="Select a photo"
-            accept="image/jpeg"
-          ></v-file-input>
-          <v-btn class="v-btn-description-li" @click="pushPhotoInArray()" elevation="0">Add photo in server</v-btn>
-
+          <!--          <v-file-input-->
+          <!--            v-model="selectedFile"-->
+          <!--            label="Select a photo"-->
+          <!--            accept="image/jpeg"-->
+          <!--          ></v-file-input>-->
+          <!--          <v-btn class="v-btn-description-li" @click="pushPhotoInArray()" elevation="0">Add photo in server</v-btn>-->
+          <!---->
           <!--          <v-btn class="v-btn-photo" @click="pushPhotoInArray()">Add</v-btn>-->
           <!--          <v-btn class="v-btn-photo" @click="deletePhotoInArray()">Delete</v-btn>-->
           <!--          <v-btn class="v-btn-photo" @click="showPhotoInArray()">Show</v-btn>-->
@@ -231,7 +298,7 @@ onMounted(async () => {
                     variant="underlined"/>
         <v-textarea v-model="productDescriptionText"
                     clearable
-                    rows="2"
+                    rows="5"
                     :auto-grow="true"
                     label="Enter a description"
                     variant="underlined"/>
@@ -269,10 +336,12 @@ onMounted(async () => {
 
         </div>
         <div class="block-description-p">
-          <v-text-field v-model="productDescriptionP"
-                        clearable
-                        label="Enter a description text"
-                        variant="underlined"/>
+          <v-textarea v-model="productDescriptionP"
+                      clearable
+                      rows="5"
+                      :auto-grow="true"
+                      label="Enter a description text"
+                      variant="underlined"/>
 
           <div class="block-description-p-actions">
             <v-btn class="v-btn-description-p" elevation="0"
@@ -323,32 +392,29 @@ onMounted(async () => {
         </div>
       </div>
       <div class="block-info">
-        <v-checkbox
-          v-model="productAvailable"
-          clearable
-          label="Click the available"
-          variant="underlined"/>
+        <v-autocomplete v-model="productStandard"
+                        :items="productStandardArray"
+                        clearable
+                        label="Enter the standard"
+                        type="text"
+                        variant="underlined"/>
 
-        <v-text-field v-model="productStandard"
-                      clearable
-                      label="Enter the standard"
-                      type="text"
-                      variant="underlined"/>
+        <v-autocomplete v-model="productManufacturer"
+                        :items="productManufacturerArray"
+                        clearable
+                        label="Enter the manufacturer"
+                        type="text"
+                        variant="underlined"/>
 
-        <v-text-field v-model="productManufacturer"
-                      clearable
-                      label="Enter the manufacturer"
-                      type="text"
-                      variant="underlined"/>
-
-        <v-text-field v-model="productField"
-                      clearable
-                      label="Enter the field"
-                      type="text"
-                      variant="underlined"/>
+        <v-autocomplete v-model="productField"
+                        :items="productFieldArray"
+                        clearable
+                        label="Enter the field"
+                        type="text"
+                        variant="underlined"/>
       </div>
 
-      <v-btn class="v-btn-form-submit" @click="submitForm">Submit</v-btn>
+      <v-btn class="v-btn-form-submit" :disabled="isValidA" @click="submitForm">Submit</v-btn>
 
     </v-form>
 

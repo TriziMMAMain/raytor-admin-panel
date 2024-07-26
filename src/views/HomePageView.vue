@@ -1,8 +1,5 @@
 <script setup>
-import {ref, onMounted} from 'vue'
-import {useRouter} from 'vue-router'
-
-const router = useRouter()
+import {ref} from 'vue'
 
 // Component
 
@@ -15,6 +12,10 @@ import GetAddressComponent from "@/components/GetAddressComponent.vue";
 
 const tab = ref('getProducts')
 
+const logoutClick = () => {
+  localStorage.removeItem("token")
+  window.location.reload()
+}
 
 </script>
 
@@ -31,6 +32,7 @@ const tab = ref('getProducts')
       <v-tab value="updateProductId">Update by ID product</v-tab>
       <v-tab value="getAddress">Get address</v-tab>
       <v-tab value="addAddress">Add address</v-tab>
+      <v-btn class="v-btn-click-logout" @click="logoutClick()">Logout</v-btn>
     </div>
   </v-tabs>
 
@@ -54,13 +56,15 @@ const tab = ref('getProducts')
 
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../assets/mixins.scss';
 
 .v-tabs-wrap {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .v-window {
@@ -72,6 +76,11 @@ const tab = ref('getProducts')
 
 .v-window-item, .v-window-item--active {
   transition: none !important;
+}
+
+.v-btn-click-logout {
+  margin-left: 50px;
+  background-color: $success;
 }
 
 </style>
