@@ -2,11 +2,13 @@
 import {ref, onMounted} from 'vue'
 import _ from 'lodash'
 import {useStore} from '@/stores/index.js'
+import {useRoute, useRouter} from "vue-router";
 
+const route = useRoute()
+const router = useRouter()
 const {updateProduct, fetchAllProducts} = useStore()
 // Product
 
-const productVModel = ref('')
 const product = ref({})
 const productsList = ref([])
 const productsListName = ref([])
@@ -166,6 +168,9 @@ const requiredRule = (value) => {
     return 'Fill in the field';
   }
 }
+const returnGetPage = async () => {
+  await router.push({name: 'HomePageComponent'})
+}
 
 //
 
@@ -223,7 +228,7 @@ const submitForm = async () => {
     product.value.field = productField.value
   }
 
-
+  const productVModel = ref(route.params.id)
   console.log(product.value);
   await updateProduct(productVModel.value, product.value)
 }
@@ -236,7 +241,8 @@ onMounted(async () => {
       console.log(error)
     })
   productsList.value = JSON.parse(localStorage.getItem('products'))
-  productsListName.value = _.map(productsList.value, 'title')
+
+  // productsListName.value = _.map(productsList.value, 'title')
 })
 </script>
 
@@ -245,16 +251,19 @@ onMounted(async () => {
   <div class="wrap-add-product">
     <v-form class="v-form-wrap" type="submitForm()">
 
-      <div class="block-id-name">
-        Сделать фильтр какой продукт менять
-        <v-autocomplete :items="productsListName"
-                        label="Product Name"
-                        clearable
-                        :rules="[requiredRule]"
-                        v-model="productVModel">
+      <v-btn class="v-btn-description" elevation="0" @click="returnGetPage()">Home</v-btn>
 
-        </v-autocomplete>
-      </div>
+
+      <!--      <div class="block-id-name">-->
+      <!--        Сделать фильтр какой продукт менять-->
+      <!--        <v-autocomplete :items="productsListName"-->
+      <!--                        label="Product Name"-->
+      <!--                        clearable-->
+      <!--                        :rules="[requiredRule]"-->
+      <!--                        v-model="productVModel">-->
+
+      <!--        </v-autocomplete>-->
+      <!--      </div>-->
 
       <div class="block-title">
         <v-text-field v-model="productTitle"
@@ -414,7 +423,7 @@ onMounted(async () => {
                         variant="underlined"/>
       </div>
 
-      <v-btn class="v-btn-form-submit" :disabled="isValidA" @click="submitForm">Submit</v-btn>
+      <v-btn class="v-btn-form-submit" @click="submitForm">Submit</v-btn>
 
     </v-form>
 
@@ -428,6 +437,9 @@ onMounted(async () => {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FFFFFF;
   }
 
   .v-form-wrap {
@@ -446,8 +458,9 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+  .block-title {
+  margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -626,10 +639,13 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 376px) and (max-width: 600px) {
+@media screen and (min-width: 376px) and (max-width: 599px) {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FFFFFF;
   }
 
   .v-form-wrap {
@@ -648,8 +664,9 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+  .block-title {
+    margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -828,10 +845,13 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 960px) {
+@media screen and (min-width: 600px) and (max-width: 959px) {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FFFFFF;
   }
 
   .v-form-wrap {
@@ -850,8 +870,9 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+  .block-title {
+    margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -1030,10 +1051,13 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 960px) and (max-width: 1280px) {
+@media screen and (min-width: 960px) and (max-width: 1279px) {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FFFFFF;
   }
 
   .v-form-wrap {
@@ -1052,8 +1076,9 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+  .block-title {
+    margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -1232,10 +1257,13 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1440px) {
+@media screen and (min-width: 1280px) and (max-width: 1439px) {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #FFFFFF;
   }
 
   .v-form-wrap {
@@ -1253,8 +1281,9 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+  .block-title {
+    margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -1428,10 +1457,13 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 1440px) and (max-width: 1920px) {
+@media screen and (min-width: 1440px) and (max-width: 1919px) {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #ffffff;
   }
 
   .v-form-wrap {
@@ -1449,8 +1481,10 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+
+  .block-title {
+    margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -1624,10 +1658,13 @@ onMounted(async () => {
   }
 }
 
-@media screen and (min-width: 1920px) and (max-width: 2560px) {
+@media screen and (min-width: 1920px) and (max-width: 2559px) {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #FFFFFF;
   }
 
   .v-form-wrap {
@@ -1645,8 +1682,10 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+
+  .block-title {
+    margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -1823,6 +1862,9 @@ onMounted(async () => {
   .wrap-add-product {
     width: 100%;
     min-height: 100vh;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #ffffff;
   }
 
   .v-form-wrap {
@@ -1840,8 +1882,9 @@ onMounted(async () => {
     color: $primary;
   }
 
-  //.block-title {
-  //}
+  .block-title {
+  margin-top: 20px;
+  }
 
   //.block-photo {
   //}
@@ -2013,6 +2056,5 @@ onMounted(async () => {
     border: 1px solid $primary;
   }
 }
-
 
 </style>

@@ -695,11 +695,11 @@ export const useStore = defineStore('store', () => {
       }
     }
 
-    async function updateProduct(name, product) {
+    async function updateProduct(id, product) {
       try {
-        const id = ref(_.find(products.value, {title: name}))
-        console.log(id.value.id);
-        const response = await interceptors.put(`/api/posts/${id.value.id}`, product)
+        console.log(id);
+        console.log(product);
+        const response = await interceptors.put(`/api/posts/${id}`, product)
           .then((result) => {
             console.log(result.status);
             ProccesingSuccessfuly('Successfuly')

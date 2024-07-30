@@ -4,6 +4,7 @@ import {onMounted, ref} from 'vue'
 import _ from 'lodash'
 // Pinia
 import {useStore} from '@/stores/index.js'
+import router from "@/routes";
 
 const {fetchAllProducts, updateHideProduct, deletePostProduct} = useStore()
 
@@ -48,6 +49,11 @@ const deletePostConfirm = async () => {
 const deleteProduct = async (id) => {
   clickToConfirm.value = true
   idClick.value = id
+}
+
+const updateProduct = async (id) => {
+  console.log(id);
+  await router.push({name: "UpdateProductIdComponent", params: {id: id}})
 }
 //
 
@@ -107,6 +113,7 @@ onMounted(async () => {
           <v-btn class="product-block-v-btn" @click="toggleShowMore(index)">More</v-btn>
           <v-btn class="product-block-v-btn" @click="hideProduct(i.id, i.hide)" v-if="i.hide">Show</v-btn>
           <v-btn class="product-block-v-btn" @click="hideProduct(i.id, i.hide)" v-else>Hide</v-btn>
+          <v-btn class="product-block-v-btn" @click="updateProduct(i.id)">Update</v-btn>
           <v-btn class="product-block-v-btn" @click="deleteProduct(i.id)">Delete</v-btn>
         </div>
         <div class="product-block-description" v-if="showMore[index]">
@@ -298,13 +305,14 @@ onMounted(async () => {
 
   .product-block-title-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
   }
 
   .product-block-v-btn {
-    width: 100px !important;
+    width: 150px !important;
     height: 45px !important;
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin: 20px 0 20px 0;
     background-color: $primary;
   }
@@ -570,11 +578,12 @@ onMounted(async () => {
 
   .product-block-title-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
   }
 
   .product-block-v-btn {
-    width: 100px !important;
+    width: 170px !important;
     height: 45px !important;
     font-size: 1.2rem;
     margin: 20px 0 20px 0;
@@ -842,11 +851,12 @@ onMounted(async () => {
 
   .product-block-title-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
   }
 
   .product-block-v-btn {
-    width: 120px !important;
+    width: 230px !important;
     height: 45px !important;
     font-size: 1.2rem;
     margin: 20px 0 20px 0;

@@ -29,7 +29,7 @@ const logoutClick = () => {
     <div class="v-tabs-wrap">
       <v-tab value="getProducts">Get product</v-tab>
       <v-tab value="addProduct">Add product</v-tab>
-      <v-tab value="updateProductId">Update by ID product</v-tab>
+<!--      <v-tab value="updateProductId">Update by ID product</v-tab>-->
       <v-tab value="getAddress">Get address</v-tab>
       <v-tab value="addAddress">Add address</v-tab>
       <v-btn class="v-btn-click-logout" @click="logoutClick()">Logout</v-btn>
@@ -43,9 +43,9 @@ const logoutClick = () => {
     <v-window-item value="addProduct">
       <AddProductComponent></AddProductComponent>
     </v-window-item>
-    <v-window-item value="updateProductId">
-      <UpdateProductIdComponent></UpdateProductIdComponent>
-    </v-window-item>
+<!--    <v-window-item value="updateProductId">-->
+<!--      <UpdateProductIdComponent></UpdateProductIdComponent>-->
+<!--    </v-window-item>-->
     <v-window-item value="getAddress">
       <GetAddressComponent></GetAddressComponent>
     </v-window-item>
@@ -69,7 +69,7 @@ const logoutClick = () => {
 
 .v-window {
   width: 100%;
-  height: 100%;
+  min-height: 120vh;
   transition: none !important;
   background-color: #ffffff;
 }

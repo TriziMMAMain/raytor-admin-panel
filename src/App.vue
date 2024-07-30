@@ -34,6 +34,7 @@ onMounted(async () => {
 
       <router-view name="HomePageComponent"></router-view>
       <router-view name="LoginPageView" ></router-view>
+      <router-view name="UpdateProductIdComponent" ></router-view>
 
       <router-view></router-view>
 
